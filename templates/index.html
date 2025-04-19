@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🎁 Instant Gift Finder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(to bottom right,#FED2E2);
+            /* background-image: '{{ url_for('static', filename='Downloads/11zon_resized.jpg') }}'; */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #333;
+        }
+        textarea, input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #FF6699; /* soft blush pink */
+            color: white;
+        }
+        button {
+            background-color:  #890045;
+            color: white;
+            border: none;
+            font-size: 16px;
+        }
+        .suggestions {
+            margin-top: 30px;
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .suggestions a {
+            display: block;
+            margin-top: 5px;
+            color: #0077cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎁 AI-Powered Instant Gift Finder</h1>
+    <form method="post">
+        <label>💡Gift Recipient Description:</label>
+        <textarea name="description" required placeholder="e.g., A 25-year-old sister who loves music and cozy things."></textarea>
+
+        <label>📅Age:</label>
+        <input type="number" name="age" min="1" max="120" required>
+
+        <label>💵Budget (USD):</label>
+        <input type="number" name="budget" min="5" max="1000" required>
+
+        <button type="submit">Find Gift Ideas</button>
+        
+        
+    </form>
+
+    {% if suggestions %}
+        <div class="suggestions">
+            <h3>💡 Gift Ideas:</h3>
+            {% for idea in suggestions %}
+                <p>{{ idea | safe }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
