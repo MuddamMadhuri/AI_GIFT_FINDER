@@ -1,29 +1,42 @@
 from flask import Flask, render_template, request
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load .env file
 
 app = Flask(__name__)
 
-# API_KEY = "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"  # Get it from https://openrouter.ai
-API_KEY ="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"
+API_KEY = os.getenv("OPENROUTER_API_KEY")
+
+print(f"🔑 API Key Loaded: {API_KEY}")
+
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
     "Content-Type": "application/json"
 }
 MODEL = "mistralai/mistral-7b-instruct:free"
+  # Switched to a safe, free model
+
 def get_gift_suggestions(description, age, budget):
     prompt = f"Suggest unique gift ideas for a {age}-year-old. Budget: ${budget}. Description: {description}"
 
     payload = {
-        # "model": "openchat/openchat-7b:free",  # or another supported free model
         "model": MODEL,
-        "messages": [{"role": "user", "content": prompt}]
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7
     }
 
-    response = requests.post(API_URL, headers=HEADERS, json=payload)
-
-    # Check for errors
     try:
+        print("📡 Sending request to AI API...")
+        print("Payload:", payload)
+
+        response = requests.post(API_URL, headers=HEADERS, json=payload)
+
+        print("🔁 Response status:", response.status_code)
+        print("🔁 Response text:", response.text)
+
         data = response.json()
         if "choices" in data:
             return data["choices"][0]["message"]["content"]
@@ -32,11 +45,9 @@ def get_gift_suggestions(description, age, budget):
         else:
             return "⚠️ Unexpected response from the AI API."
     except Exception as e:
-        return f"❌ Failed to parse API response: {e}"
-
+        return f"❌ Failed to reach API: {e}"
 
 def mock_product_links(suggestions_text):
-    # Fake product links from keywords in the suggestion
     lines = suggestions_text.split("\n")
     output = []
     for line in lines:
@@ -59,11 +70,5 @@ def index():
         links = mock_product_links(suggestions)
     return render_template("index.html", suggestions=links)
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
-import os
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Render sets this automatically
-    app.run(host='0.0.0.0', port=port,debug=True)
-
+if __name__ == "__main__":
+    app.run(debug=True)
