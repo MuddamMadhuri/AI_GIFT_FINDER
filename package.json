@@ -1,0 +1,14 @@
+{
+  "name": "ai-gift-finder",
+  "version": "1.0.0",
+  "description": "A Flask-based web app that uses AI to suggest gift ideas",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'Use Flask to run the backend. This is for frontend tooling only.'"
+  },
+  "keywords": ["flask", "gift", "ai", "gpt-4", "webapp"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
