@@ -3,7 +3,8 @@ import requests
 
 app = Flask(__name__)
 
-API_KEY = "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"  # Get it from https://openrouter.ai
+# API_KEY = "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"  # Get it from https://openrouter.ai
+API_KEY ="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"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
