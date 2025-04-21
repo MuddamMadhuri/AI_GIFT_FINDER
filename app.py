@@ -19,7 +19,7 @@ def get_gift_suggestions(description, age, budget):
         "messages": [{"role": "user", "content": prompt}]
     }
 
-    response = requests.post(API_URL, headers=HEADERS, json=payload,verify='/path/to/cert.pem')
+    response = requests.post(API_URL, headers=HEADERS, json=payload)
 
     # Check for errors
     try:
