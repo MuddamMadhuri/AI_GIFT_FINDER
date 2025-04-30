@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎁 The Gift Genie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    :root {
+      --primary: #FF2D75;
+      --secondary: #890045;
+      --accent: #FF9E2D;
+      --light: #FFF0F5;
+      --dark: #3A0A2A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fddde6, #ffe8f1, #f0f9ff);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      max-width: 1000px;
+      width: 100%;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,214,230,0.3) 0%, rgba(255,255,255,0) 70%);
+      z-index: -1;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(5%, 5%); }
+      50% { transform: translate(10%, 0); }
+      75% { transform: translate(5%, -5%); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      text-align: center;
+      font-size: 2.5rem;
+      color: var(--secondary);
+      margin-bottom: 25px;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    h1::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .emoji {
+      font-size: 1.1em;
+      vertical-align: middle;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    form {
+      margin-top: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--secondary);
+      font-size: 1.1rem;
+    }
+
+    label .emoji {
+      margin-right: 8px;
+    }
+
+    textarea, input, select {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 2px solid rgba(137, 0, 69, 0.2);
+      font-size: 16px;
+      background-color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    textarea:focus, input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 45, 117, 0.2);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    /* Improved Slider Styling */
+    input[type="range"] {
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(to right, var(--light), var(--primary));
+      border-radius: 4px;
+      margin: 15px 0;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--secondary);
+      font-size: 14px;
+    }
+    #age-value {
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(137, 0, 69, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(137, 0, 69, 0.4);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    button:hover::after {
+      transform: translateX(100%);
+    }
+
+    .suggestions {
+      margin-top: 40px;
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      border: 2px dashed var(--primary);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .suggestions h3 {
+      color: var(--secondary);
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .suggestions h3 .emoji {
+      margin-right: 10px;
+    }
+
+    .suggestion-item {
+      padding: 15px;
+      margin-bottom: 15px;
+      background: var(--light);
+      border-radius: 10px;
+      border-left: 4px solid var(--primary);
+      transition: transform 0.3s ease;
+    }
+
+    .suggestion-item:hover {
+      transform: translateX(5px);
+    }
+
+    .suggestion-item p {
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    .floating-gifts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .gift-icon {
+      position: absolute;
+      opacity: 0.1;
+      animation: floatUp 15s linear infinite;
+    }
+    
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); }
+      100% { transform: translateY(-100px) rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+    .category-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+    }
+    .category-btn {
+        flex: 1 0 calc(33% - 8px);
+        padding: 12px;
+        border: 2px solid rgba(137, 0, 69, 0.2);
+        border-radius: 10px;
+        background: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #FF2D75;
+    }
+    .category-btn:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+    }
+    .category-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+        font-weight: bold;
+    }
+    .home-button {
+      padding: 10px 20px;
+      background: #4B0082;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .home-button:hover {
+      background: #6a0dad;
+    }
+  </style>
+</head>
+<body>
+  <div class="container animate__animated animate__fadeIn">
+    <div class="floating-gifts">
+      <div class="gift-icon" style="left: 10%; font-size: 30px; animation-delay: 0s;">🎁</div>
+      <div class="gift-icon" style="left: 30%; font-size: 40px; animation-delay: 3s;">🎀</div>
+      <div class="gift-icon" style="left: 70%; font-size: 25px; animation-delay: 6s;">🎈</div>
+      <div class="gift-icon" style="left: 85%; font-size: 35px; animation-delay: 9s;">🛍️</div>
+    </div>
+    
+    <h1><span class="emoji">✨</span> Let’s Find a Gift as Special as They Are <span class="emoji">✨</span></h1>
+    <p style="text-align: center; color: var(--secondary); margin-bottom: 28px;">🤖 "Just a few questions—our AI will do the rest!"</p>
+    
+    <form method="post">
+      <div class="form-group">
+        <label><span class="emoji">👤</span> Who are you shopping for?</label>
+        <textarea 
+          name="description" 
+          required 
+          placeholder="Example: 'My 25-year-old sister who loves indie music, cozy sweaters, and artisanal coffee'"
+          aria-label="Describe the gift recipient"
+        ></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label><span class="emoji">🎂</span> Their Age</label>
+        <input 
+          type="range" 
+          id="age-slider" 
+          min="0" 
+          max="100" 
+          value="25" 
+          aria-label="Select recipient's age"
+        >
+        <div class="slider-labels">
+          <span>0</span>
+          <span id="age-value">25</span>
+          <span>100</span>
+        </div>
+        <input type="hidden" name="age" id="age-input" value="25">
+      </div>
+
+      <div class="form-group">
+        <label><span class="emoji">💰</span> Your Budget (USD)</label>
+        <input 
+          type="number" 
+          name="budget" 
+          min="5" 
+          max="1000" 
+          required 
+          placeholder="e.g., 50"
+          aria-label="Enter your budget in USD"
+        >
+      </div>
+      
+      <div class="form-group">
+        <label><span class="emoji">🎯</span> Gift Category</label>
+        <div class="category-buttons">
+          <button type="button" class="category-btn active" data-category="all">
+            🎁 All
+          </button>
+          <button type="button" class="category-btn" data-category="tech">
+            📱 Tech
+          </button>
+          <button type="button" class="category-btn" data-category="fashion">
+            👗 Fashion
+          </button>
+          <button type="button" class="category-btn" data-category="home">
+            🏠 Home
+          </button>
+          <button type="button" class="category-btn" data-category="experience">
+            ✈️ Experiences
+          </button>
+        </div>
+        <input type="hidden" name="category" value="all">
+      </div>
+      <script>
+        document.querySelectorAll('.category-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelector('.category-btn.active').classList.remove('active');
+            btn.classList.add('active');
+            document.querySelector('input[name="category"]').value = btn.dataset.category;
+          });
+        });
+      </script>
+      
+      <button 
+        type="submit" 
+        class="animate__animated animate__pulse animate__infinite animate__slower"
+        aria-label="Generate gift ideas"
+      >
+        <span class="emoji">🔮</span> Reveal Perfect Gifts 
+      </button>
+    </form>
+
+    {% if suggestions %}
+<div class="suggestions animate__animated animate__fadeInUp">
+  <h3><span class="emoji">💡</span> Our Gift Suggestions</h3>
+  {% for idea in suggestions %}
+  <div class="suggestion-item">
+    <p>{{ idea | safe }}</p>  <!-- Amazon links will work normally here -->
+  </div>
+  {% endfor %}
+  
+  <div style="text-align: center; margin-top: 20px;">
+    <button 
+      onclick="window.location.href='{{ url_for('form') }}'" 
+      style="background: var(--accent); width: auto; padding: 12px 25px; display: inline-block;"
+      aria-label="Try another search"
+    >
+      <span class="emoji">🔄</span> Try Another Search
+    </button>
+    
+    <button 
+      onclick="window.location.href='{{ url_for('index') }}'" 
+      style="background: var(--secondary); width: auto; padding: 12px 25px; display: inline-block; margin-left: 10px;"
+      aria-label="Go back home"
+    >
+      <span class="emoji">🏠</span> Go Back Home
+    </button>
+  </div>
+</div>
+{% endif %}
+
+  <script>
+    // Update displayed age value when slider moves
+    document.getElementById("age-slider").addEventListener("input", function() {
+      var ageValue = this.value;
+      document.getElementById("age-value").textContent = ageValue;
+    document.getElementById("age-hidden-input").value = ageValue;
+      document.querySelectorAll('.suggestion-item').forEach(item => {
+    item.addEventListener('click', () => {
+      window.location.href = "{{ url_for('index') }}"; 
+    });
+  });
+
+  // Optional: Add pointer cursor to show items are clickable
+  const style = document.createElement('style');
+  style.innerHTML = '.suggestion-item { cursor: pointer; }';
+  document.head.appendChild(style);
+
+      if (performance.navigation.type === 1) {
+    setTimeout(() => {
+      window.location.href = "{{ url_for('index') }}";
+    }, 2000); // 2-second delay
+  }
+      
+    });
+  </script>
+</body>
+</html>
